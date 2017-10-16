@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,Modal, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
+import { StyleSheet,Modal,WebView, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
 
 import {
   StackNavigator,
@@ -8,7 +8,7 @@ import {
 import  Home  from './src/Home';
 const remote = './img/bitcoin.png';
 
-
+var ToastAndroid = require('NativeModules').ToastAndroid;
 
 export default class App extends React.Component {
 
@@ -81,20 +81,12 @@ export default class App extends React.Component {
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.");this.setModalVisible(false);}}
+          onRequestClose={() => {this.setModalVisible(false);ToastAndroid.show('Thanks to visit!', ToastAndroid.LONG);}}
           >
-         <View style={{marginTop: 22}}>
-          <View>
-            <Text>Hello World!</Text>
-
-            <TouchableHighlight onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}>
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
-
-          </View>
-         </View>
+          <WebView
+            source={{uri: 'http://wallet.auxledger.com/'}}
+            style={{marginTop: 20}}
+          />
         </Modal>
 
 
@@ -111,7 +103,7 @@ export default class App extends React.Component {
         >
           <TouchableHighlight
             style={styles.submit}
-            onPress={() => {this.setModalVisible(true);}}
+            onPress={() => {this.callMe();}}
             underlayColor='#841584'>
               <Text style={styles.submitText}>Get Started</Text>
           </TouchableHighlight>
@@ -133,6 +125,7 @@ export default class App extends React.Component {
               fontSize: 16,
               color:'grey'
             }}
+            onPress={()=>{this.setModalVisible(true);}}
           >
             {text}
           </Text>
