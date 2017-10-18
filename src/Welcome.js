@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Modal, WebView, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
+import { BackHandler, AsyncStorage, Modal, WebView, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
 
 import {
   StackNavigator,
@@ -20,6 +20,8 @@ export default class Home extends React.Component{
    constructor(props)
    {
        super(props);
+
+
    }
 
    componentDidMount(){
@@ -27,7 +29,10 @@ export default class Home extends React.Component{
      console.log("Local Storage Values To Be Stored");
      AsyncStorage.getItem('setIfAuth').then((v)=>{
        console.log(v);
-     })
+     });
+
+
+     
    }
 
 
@@ -80,20 +85,18 @@ export default class Home extends React.Component{
 
 
           <View>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {this.setModalVisible(false);ToastAndroid.show('Thanks to visit!', ToastAndroid.LONG);}}
-            >
-            <WebView
-              source={{uri: 'http://wallet.auxledger.com/'}}
-              style={{marginTop: 20}}
-            />
-          </Modal>
-
-
-        </View>
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {this.setModalVisible(false);ToastAndroid.show('Thanks to visit!', ToastAndroid.LONG);}}
+              >
+              <WebView
+                source={{uri: 'http://wallet.auxledger.com/'}}
+                style={{marginTop: 20}}
+              />
+            </Modal>
+          </View>
 
           <View
             style={{
