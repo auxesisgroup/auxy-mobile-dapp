@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, Text } from 'react-native';
+import { AppRegistry } from 'react-native';
 
-import renderer from 'react-test-renderer';
+
 
 import Routes from './src/routes/Routes';
 
@@ -15,6 +15,7 @@ class App extends Component {
 export default App
 
 AppRegistry.registerComponent('App', () => App);
+//import renderer from 'react-test-renderer';
 // it('renders without crashing', () => {
 //   const rendered = renderer.create(<App />).toJSON();
 //   expect(rendered).toBeTruthy();

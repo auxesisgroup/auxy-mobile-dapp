@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, WebView, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
+import { AsyncStorage, Modal, WebView, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
 
 import {
   StackNavigator,
@@ -22,6 +22,14 @@ export default class Home extends React.Component{
        super(props);
    }
 
+   componentDidMount(){
+     AsyncStorage.setItem('setIfAuth','N');
+     console.log("Local Storage Values To Be Stored");
+     AsyncStorage.getItem('setIfAuth').then((v)=>{
+       console.log(v);
+     })
+   }
+
 
    setModalVisible(visible) {
      this.setState({modalVisible: visible});
@@ -30,7 +38,7 @@ export default class Home extends React.Component{
 
    callMe(){
      console.log("callMe");
-     Actions.about();
+     Actions.signup();
    };
 
    render() {
@@ -52,7 +60,7 @@ export default class Home extends React.Component{
               style={{
                 resizeMode,
               }}
-              source={require('../img/bitcoin2.png')}
+              source={require('./img/bitcoin2.png')}
             />
           </View>
 
@@ -67,7 +75,7 @@ export default class Home extends React.Component{
               flex:1
             }}
           >
-            <Image source={require('../img/auxy.png')} style={styles.auxylogo}/>
+            <Image source={require('./img/auxy.png')} style={styles.auxylogo}/>
           </View>
 
 
@@ -99,7 +107,7 @@ export default class Home extends React.Component{
             <TouchableHighlight
               style={styles.submit}
               onPress={() => {this.callMe();}}
-              underlayColor='#841584'>
+              underlayColor='#337ab7'>
                 <Text style={styles.submitText}>Get Started</Text>
             </TouchableHighlight>
           </View>
@@ -117,8 +125,8 @@ export default class Home extends React.Component{
             <Text
               style={{
                 textAlign: 'center',
-                fontSize: 16,
-                color:'grey'
+                fontSize: 18,
+                color:'white'
               }}
               onPress={()=>{this.setModalVisible(true);}}
             >
@@ -150,7 +158,7 @@ const styles = StyleSheet.create({
     marginTop:10,
     paddingTop:20,
     paddingBottom:20,
-    backgroundColor:'#841584',
+    backgroundColor:'#337ab7',
     borderRadius:100,
     borderWidth: 1,
     width:150,
