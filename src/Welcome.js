@@ -6,6 +6,7 @@ import {
 } from 'react-navigation';
 
 import { Actions } from 'react-native-router-flux';
+import { NavigationActions } from 'react-navigation';
 
 var ToastAndroid = require('NativeModules').ToastAndroid;
 
@@ -25,16 +26,24 @@ export default class Home extends React.Component{
    }
 
    componentDidMount(){
+
+   }
+
+   txtdum(){
+     let ifauth = "";
      AsyncStorage.setItem('setIfAuth','N');
      console.log("Local Storage Values To Be Stored");
      AsyncStorage.getItem('setIfAuth').then((v)=>{
        console.log(v);
+       ifauth = v;
      });
 
-
-     
+     if(ifauth == "N"){
+       console.log("in if");
+     }else{
+       console.log("in else");
+     }
    }
-
 
    setModalVisible(visible) {
      this.setState({modalVisible: visible});
@@ -43,7 +52,13 @@ export default class Home extends React.Component{
 
    callMe(){
      console.log("callMe");
-     Actions.signup();
+     //Actions.signup();
+     this.props.navigation.dispatch(NavigationActions.reset({
+      index:0,
+      actions:[
+        NavigationActions.navigate({routeName:'signup'})
+      ]
+     }));
    };
 
    render() {

@@ -1,11 +1,17 @@
 import React from 'react';
-import { AsyncStorage,Modal, WebView, StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
+import { AsyncStorage,Modal, WebView, StyleSheet,StatusBar, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
 
 import {
   StackNavigator,
 } from 'react-navigation';
 
 import { Actions } from 'react-native-router-flux';
+import { NavigationActions } from 'react-navigation';
+
+import  HeaderLayout from '../layout/HeaderLayout.js';
+import { Header } from 'react-native-elements';
+
+import NavigationBar from 'react-native-navbar';
 
 var ToastAndroid = require('NativeModules').ToastAndroid;
 
@@ -19,8 +25,17 @@ export default class Home extends React.Component{
 
    componentDidMount = () => AsyncStorage.getItem('setIfAuth').then(
      (value)=>{
-         this.state.setIfAuth = "Y";
-         console.log(this.state);
+        //  if(value == "N"){
+        //    this.props.navigation.dispatch(NavigationActions.reset({
+        //      index:0,
+        //      actions:[
+        //        NavigationActions.navigate({routeName:'signup'})
+        //      ]
+        //    }));
+        //  }else{
+        //     console.log(this.state+"\n"+value);
+        //  }
+         console.log(this.state+"\n"+value);
      }
     );
 
@@ -48,10 +63,18 @@ export default class Home extends React.Component{
       const text = 'Powered by Auxesis';
 
       return (
-        <View style={{flex:1,alignItems:'center'}}>
-
-            <Text>Home page</Text>
-
+        <View style={styles.container}>
+          <StatusBar
+             backgroundColor="#337ab7"
+             barStyle="light-content"
+           />
+          <View  style={styles.headerLayout} >
+            <HeaderLayout/>
+          </View>
+          <View style={styles.homeView}>
+              <Text>Home page test inside asdf</Text>
+              <Image source={require('../../img/auxy.png')} style={styles.auxylogo}/>
+          </View>
         </View>
       );
    }
@@ -59,31 +82,17 @@ export default class Home extends React.Component{
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:  '#eee',
-    alignItems: 'center',
+    flex:1,
+    backgroundColor:'#fff'
   },
-  getstartbutton:{
-    margin:2,
-    width:'100%',
-    color:'#841584',
-    borderRadius:160,
-    borderColor:'rgba(0,0,0,0.2)',
+  headerLayout:{
+    flex:1,
+    backgroundColor:'#004A7C',
+    borderColor:'#004A7C',
+    height:25
   },
-  submit:{
-    marginRight:40,
-    marginLeft:40,
-    marginTop:10,
-    paddingTop:20,
-    paddingBottom:20,
-    backgroundColor:'#337ab7',
-    borderRadius:100,
-    borderWidth: 1,
-    width:150,
-    borderColor:'rgba(0,0,0,0.2)',
-  },
-  submitText:{
-      color:'#fff',
-      textAlign:'center',
-      fontSize:16
+  homeView:{
+    flex:2,
+    height:'100%'
   }
 });
