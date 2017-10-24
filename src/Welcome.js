@@ -69,9 +69,7 @@ export default class Home extends React.Component{
         <View style={{flex:1,alignItems:'center'}}>
           <View
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
+              position: 'relative',
               width: '100%',
               height: '100%',
             }}
@@ -91,7 +89,6 @@ export default class Home extends React.Component{
               position:'absolute',
               top:0,
               left:0,
-              margin:16,
               flex:1
             }}
           >
@@ -126,7 +123,7 @@ export default class Home extends React.Component{
               style={styles.submit}
               onPress={() => {this.callMe();}}
               underlayColor='#337ab7'>
-                <Text style={styles.submitText}>Get Started</Text>
+                <Text style={styles.submitText}>Get Started!</Text>
             </TouchableHighlight>
           </View>
 
@@ -167,7 +164,6 @@ const styles = StyleSheet.create({
     margin:2,
     width:'100%',
     color:'#841584',
-    borderRadius:160,
     borderColor:'rgba(0,0,0,0.2)',
   },
   submit:{

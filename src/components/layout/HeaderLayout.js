@@ -8,15 +8,15 @@ export default class HeaderLayout extends React.Component {
   render(){
     return (
       <Header
-        leftComponent={{ icon: 'menu', color: '#fff',onPress={()=>{console.log("menu item");}} }}
-        centerComponent={{ text: 'Home', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'home', color: '#fff',onPress={()=>{console.log("home item");}} }}
+        leftComponent={{ icon: 'menu', color: '#ff0' }}
+        centerComponent={{ text: 'Home', style: { color: '#ff0' } }}
+        rightComponent={{ icon: 'home', color: '#ff0' }}
       />
     )
   }
 }
 /*<Header
-  leftComponent={{ icon: 'menu', color: '#fff' }}
-  centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-  rightComponent={{ icon: 'home', color: '#fff' }}
+leftComponent={{ icon: 'menu', color: '#fff',onPress={()=>{console.log("menu item");}} }}
+centerComponent={{ text: 'Home', style: { color: '#fff' } }}
+rightComponent={{ icon: 'home', color: '#fff',onPress={()=>{console.log("home item");}} }}
 />*/
