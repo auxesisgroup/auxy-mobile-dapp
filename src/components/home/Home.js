@@ -85,10 +85,10 @@ export default class Home extends React.Component{
       tintColor:'#fff'
     };
 
-    var icon1 = (<View><Icon name='touch-app' color="#fff"/></View>);
+  //  var icon1 = (<View><Icon name='touch-app' color="#fff"/></View>);
 
     const leftButtonConfig = {
-     title: 'Menu',
+     title: 'MenuBtn',
      handler: () => {
        console.log("clicked2");
        this.openDrawer();
