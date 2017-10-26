@@ -21,11 +21,11 @@ import {
 var ToastAndroid = require('NativeModules').ToastAndroid;
 
 
-export default class Signup extends React.Component{
+export default class Newtoken extends React.Component{
    state = {
       myState: "fgfdgfd deserunt mollit anim id est laborum.",
       modalVisible: false,
-      emailtext:'',
+      token:'',
       fadeAnim:new Animated.Value(0),
       successResult:"Please click on the link provided in your mail to activate your account.",
       visibleLoader:false
@@ -53,6 +53,9 @@ export default class Signup extends React.Component{
            //console.log(this.state+"\n"+value);
        }
       );
+      AsyncStorage.getItem('AuxyUserEmail').then((value)=>{
+        console.log(value);
+      });
      BackHandler.addEventListener('hardwareBackPress', function() {
        // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
        // Typically you would use the navigator here to go to the last state.
@@ -102,51 +105,42 @@ export default class Signup extends React.Component{
      });
    }
 
-   async callMe(){
-     try{
-       let email = this.state.emailtext;
-       if(email == "" || email == null){
-         ToastAndroid.show("Provide your email",ToastAndroid.SHORT);
-       }else{
-            this.setState({
-              visibleLoader: true
-            });
-            //console.log(this.state.emailtext);
-            this.setState({emailtext:''});
-            //console.log(this.state.successResult);
+   callMe(){
+     let email = this.state.token;
+     if(email == "" || email == null){
+       ToastAndroid.show("Provide your token",ToastAndroid.SHORT);
+     }else{
+       this.setState({
+         visibleLoader: true
+       });
+       console.log(this.state.token);
+       this.setState({token:''});
+       //console.log(this.state.successResult);
 
-            setTimeout(() => {
-               this.setState({
-                 visibleLoader: false
-               });
-            }, 4000);
-            
-            let api = await fetch('https://freegeoip.net/json/', {
-              method: 'GET',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              },
-              // body: JSON.stringify({
-              //   firstParam: 'yourValue',
-              //   secondParam: 'yourOtherValue',
-              // })
-            });
-            let response = await api.json();
-            console.log(response);
-
-        //  setTimeout(()=>{
-        //    AsyncStorage.setItem('AuxyUserEmail',email);
-        //    this.props.navigation.dispatch(NavigationActions.reset({
-        //     index:0,
-        //     actions:[
-        //       NavigationActions.navigate({routeName:'newtoken'})
-        //     ]
-        //    }));
-        //  },5000);
-       }
-     }catch(err){
-         console.log("Failed due to "+err);
+       setTimeout(() => {
+          this.setState({
+            visibleLoader: false
+          });
+       }, 4000);
+       setTimeout(()=>{
+         let t = email;
+        AsyncStorage.setItem('AuxyUserToken',t);
+        this.props.navigation.dispatch(NavigationActions.reset({
+         index:0,
+         actions:[
+           NavigationActions.navigate({routeName:'password'})
+         ]
+        }));
+       },5000);
+      //  setTimeout(()=>{
+      //    this.popupDialog.dismiss();
+      //     this.props.navigation.dispatch(NavigationActions.reset({
+      //      index:0,
+      //      actions:[
+      //        NavigationActions.navigate({routeName:'home'})
+      //      ]
+      //     }));
+      //  },10000);
      }
    }
 
@@ -195,12 +189,12 @@ export default class Signup extends React.Component{
               <Animated.View
                 style={{...this.props.style,
                 opacity:fadeAnim}}>
-              <Text style={styles.emailtext}>Enter E-mail</Text>
-              <TextInput style = {styles.textInput}  placeholder="Enter your email" keyboardType="email-address"
-                onChangeText={(emailtext)=>this.setState({emailtext})} value={this.state.emailtext}/>
-              <Text style={styles.recoverfunds} onPress={()=>{this.recoverfunds();}}>
-                 Recover Funds?
+              <Text style={styles.emailtext}>Enter Token</Text>
+              <Text style={styles.tokensuccess}>
+                Please check your Email ID and follow the steps or enter token sent to your Email ID here to authenticate.
               </Text>
+              <TextInput style = {styles.textInput} keyboardType="numeric" placeholder="Enter your token" keyboardType="email-address"
+                onChangeText={(token)=>this.setState({token})} value={this.state.token}/>
               <View style={styles.auxybutton}>
                 <TouchableHighlight
                   style={styles.submit}
@@ -247,7 +241,7 @@ export default class Signup extends React.Component{
             dialogAnimation={slideAnimation}
           >
             <View style={{alignItems: 'center',padding:15}}>
-              <Text style={{textAlign:'center',marginTop:'5%',marginBottom:'5%'}}>Check your email!</Text>
+              <Text style={{textAlign:'center',marginTop:'5%',marginBottom:'5%'}}>Thanks For Registering!</Text>
               <Image source={require('../../img/IconApproved.png')} style={{width:125,height:125}}/>
               <Text style={{textAlign:'center',marginTop:'5%',marginBottom:'5%'}}>Wait... Loading your asset!</Text>
               <TouchableHighlight
@@ -344,5 +338,11 @@ const styles = StyleSheet.create({
     width:130,
     height:50,
     marginLeft:'8%'
+  },
+  tokensuccess:{
+    // fontWeight:'bold',
+    color:'#3c763d',
+    marginTop:'5%',
+    fontSize:14
   }
 });

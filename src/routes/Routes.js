@@ -5,6 +5,8 @@ import Welcome from '../Welcome.js';
 import Home from '../components/home/Home.js';
 import About from '../components/about/About.js';
 import Signup from '../components/signup/Signup.js';
+import Newtoken from '../components/signup/Newtoken.js';
+import Password from '../components/signup/Password.js';
 import Recoverfund from '../components/recover/Funds.js';
 
 import Drawers from '../components/layout/Drawers.js';
@@ -13,9 +15,14 @@ import Drawers from '../components/layout/Drawers.js';
 const Routes = () => (
    <Router>
       <Scene key = "root">
-         <Scene key = "welcome" component = {Welcome} title = "Welcome"   hideNavBar={true} />
-         <Scene key = "home" component = {Home} title = "Home Page"  initial = {true}  hideNavBar={true} />
-         <Scene key = "signup" component = {Signup} title = "Signup" hideNavBar={true} />
+         <Scene key = "welcome" component = {Welcome} title = "Welcome"  initial = {true}  hideNavBar={true} />
+
+         <Scene key = "home" component = {Home} title = "Home Page"   hideNavBar={true} />
+
+         <Scene key = "signup" component = {Signup} title = "Signup"  hideNavBar={true} />
+         <Scene key = "newtoken" component = {Newtoken} title = "Newtoken" hideNavBar={true} />
+         <Scene key = "password" component = {Password} title = "Password" hideNavBar={true} />
+
          <Scene key = "about" component = {About} title = "About" />
          <Scene key = "recoverfund" component = {Recoverfund}  title="recoverfund" hideNavBar={true} />
 

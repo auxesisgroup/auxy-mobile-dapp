@@ -95,7 +95,7 @@ export default class Funds extends React.Component{
               marginTop:22,
               flex:1,
               position:'absolute',
-              height:'10%',
+              height:'8%',
               width:'100%'
             }}
           >
@@ -113,11 +113,14 @@ export default class Funds extends React.Component{
                  Step 1 of 2: Enter 16 word passphrase
               </Text>
               <View style={styles.recoverredview}>
-                <Icon color="#f00" name="touch-app" style={styles.recoverredicon} />
+                <Icon color="#F26C57" name="touch-app" style={styles.recoverredicon} />
                 <Text style={styles.recoverredtext}>You should always pair login if you have access to your Wallet ID and password. Recovering your funds will create a new Wallet ID.</Text>
               </View>
               <Text style={styles.recoverfundspass}>
                  Your recovery passphrase
+              </Text>
+              <Text style={styles.recoverfundspasstext}>
+                 Enter your 16 recovery words with spaces to recover your funds & transactions
               </Text>
               <TextInput style = {styles.textInput}  placeholder="Passphrase type here..."
                 onChangeText={(passphrase)=>this.setState({passphrase})} value={this.state.passphrase}/>
@@ -125,7 +128,7 @@ export default class Funds extends React.Component{
                 <Button
                 onPress={()=>{this.callMe();}}
                 title="Continue"
-                color="#337ab7"
+                color="#10ADE4"
                 style={styles.buttonview2}
                 />
                 <Button
@@ -151,8 +154,9 @@ export default class Funds extends React.Component{
             <Text
               style={{
                 textAlign: 'center',
-                fontSize: 16,
-                color:'white'
+                fontSize: 14,
+                color:'#333',
+                fontStyle:'italic'
               }}
             >
               {text}
@@ -199,15 +203,16 @@ const styles = StyleSheet.create({
     width:'95%',
     padding:15,
     borderRadius:10,
-    height:'65%',
-    marginTop:'35%',
+    height:'70%',
+    marginTop:'30%',
     marginRight:'10%',
     marginLeft:'10%'
   },
   emailtext:{
-    fontSize:25,
-    fontWeight:'bold',
-    marginTop:'2%'
+    fontSize:24,
+    // fontWeight:'bold',
+    marginTop:'5%',
+    fontFamily:'inherit'
   },
   textInput:{
     height:50,
@@ -239,7 +244,7 @@ const styles = StyleSheet.create({
       position:'relative',
       alignItems:'center',
       justifyContent:'center',
-      marginTop:10,
+      marginTop:5,
       borderColor:'red',
       borderWidth:1,
       borderRadius:10,
@@ -249,19 +254,23 @@ const styles = StyleSheet.create({
   recoverredicon:{
     left:0,
     position:'absolute',
-    color:'#f00'
+    color:'#F26C57'
   },
   recoverredtext:{
-    color:'#f00',
+    color:'#F26C57',
     textAlign:'justify',
     marginLeft:40
   },
   recoverfundspass:{
     fontWeight:'bold',
-    fontSize:20,
+    fontSize:18,
     textAlign:'left',
-    color:'#5e6e88',
+    color:'#858585',
     marginTop:'5%'
+  },
+  recoverfundspasstext:{
+    color:'#777',
+    fontSize:12
   },
   buttonview:{
     width:'100%',
@@ -273,5 +282,10 @@ const styles = StyleSheet.create({
   buttonview2:{
     width:'50%',
     right:0
+  },
+  auxylogo:{
+    width:130,
+    height:50,
+    marginLeft:'8%'
   }
 });

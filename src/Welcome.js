@@ -26,7 +26,22 @@ export default class Home extends React.Component{
    }
 
    componentDidMount(){
-
+     AsyncStorage.setItem('setIfAuth','N');
+     
+     AsyncStorage.getItem('setIfAuth').then((v)=>{
+       console.log(v);
+       ifauth = v;
+       if(ifauth == "N"){
+         console.log(this.state+"\n"+ifauth);
+       }else{
+          this.props.navigation.dispatch(NavigationActions.reset({
+            index:0,
+            actions:[
+              NavigationActions.navigate({routeName:'home'})
+            ]
+          }));
+       }
+     });
    }
 
    txtdum(){
@@ -77,8 +92,9 @@ export default class Home extends React.Component{
             <Image
               style={{
                 resizeMode,
+                width:'100%'
               }}
-              source={require('./img/bitcoin2.png')}
+              source={require('./img/auxywall.png')}
             />
           </View>
 
@@ -87,6 +103,7 @@ export default class Home extends React.Component{
               backgroundColor: 'transparent',
               justifyContent: 'center',
               position:'absolute',
+              marginTop:'5%',
               top:0,
               left:0,
               flex:1
@@ -123,7 +140,7 @@ export default class Home extends React.Component{
               style={styles.submit}
               onPress={() => {this.callMe();}}
               underlayColor='#337ab7'>
-                <Text style={styles.submitText}>Get Started!</Text>
+                <Text style={styles.submitText}>Get Started</Text>
             </TouchableHighlight>
           </View>
 
@@ -140,8 +157,9 @@ export default class Home extends React.Component{
             <Text
               style={{
                 textAlign: 'center',
-                fontSize: 18,
-                color:'white'
+                fontSize: 14,
+                color:'#333',
+                fontStyle:'italic'
               }}
               onPress={()=>{this.setModalVisible(true);}}
             >
@@ -170,17 +188,18 @@ const styles = StyleSheet.create({
     marginRight:40,
     marginLeft:40,
     marginTop:10,
-    paddingTop:20,
-    paddingBottom:20,
+    paddingTop:12,
+    paddingBottom:12,
     backgroundColor:'#337ab7',
-    borderRadius:100,
+    borderRadius:5,
     borderWidth: 1,
-    width:150,
+    width:180,
+    height:50,
     borderColor:'rgba(0,0,0,0.2)',
   },
   submitText:{
       color:'#fff',
       textAlign:'center',
-      fontSize:16
+      fontSize:16,
   }
 });

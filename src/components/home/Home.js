@@ -1,9 +1,10 @@
 import React from 'react';
-import { AsyncStorage,Modal, WebView, StyleSheet,StatusBar, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
+import { AsyncStorage,Modal, Alert, WebView, StyleSheet,StatusBar, Text, View, Image, ScrollView, Button, TouchableOpacity,TouchableHighlight, Icon } from 'react-native';
 
 import {
   StackNavigator,
 } from 'react-navigation';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { Actions } from 'react-native-router-flux';
 import { NavigationActions } from 'react-navigation';
@@ -27,7 +28,9 @@ export default class Home extends React.Component{
    state = {
       myState: "fgfdgfd deserunt mollit anim id est laborum.",
       modalVisible: false,
-      setIfAuth:""
+      setIfAuth:"",
+      useremail:"",
+      dumtext:""
    }
 
 
@@ -41,17 +44,21 @@ export default class Home extends React.Component{
 
    componentDidMount = () => AsyncStorage.getItem('setIfAuth').then(
      (value)=>{
-        //  if(value == "N"){
-        //    this.props.navigation.dispatch(NavigationActions.reset({
-        //      index:0,
-        //      actions:[
-        //        NavigationActions.navigate({routeName:'signup'})
-        //      ]
-        //    }));
-        //  }else{
-        //     console.log(this.state+"\n"+value);
-        //  }
-         console.log(this.state+"\n"+value);
+       console.log(value);
+         if(value == "N"){
+           this.props.navigation.dispatch(NavigationActions.reset({
+             index:0,
+             actions:[
+               NavigationActions.navigate({routeName:'signup'})
+             ]
+           }));
+         }else{
+            console.log(this.state+"\n"+value);
+         }
+
+         AsyncStorage.getItem('AuxyUserEmail').then((name)=>{
+           this.setState({useremail:name});
+         });
      }
     );
 
@@ -64,6 +71,32 @@ export default class Home extends React.Component{
        console.log(this.props);
    }
 
+   logout(){
+     Alert.alert(
+       'Logout app...',
+       'Sure want to logout?',
+       [
+         {
+           text:'Nope',style:'cancel',onPress:()=>{console.log("cancel click");}
+         },
+         {
+           text:'Yes',onPress:()=>{
+             console.log("yes click");
+             AsyncStorage.setItem("setIfAuth","N");
+             setTimeout(()=>{
+               this.props.navigation.dispatch(NavigationActions.reset({
+                index:0,
+                actions:[
+                  NavigationActions.navigate({routeName:'welcome'})
+                ]
+               }));
+             },1000);
+
+           }
+         }
+       ]
+     )
+   }
 
    setModalVisible(visible) {
      this.setState({modalVisible: visible});
@@ -110,30 +143,48 @@ export default class Home extends React.Component{
 
      var contents = (
        <View style={styles.container}>
-            <StatusBar
-              backgroundColor="#337ab7"
-            />
-            <NavigationBar
-              containerStyle={styles.navbar}
-              tintColor="#337ab7"
-              statusBar={stats}
-              leftButton={leftButtonConfig}
-              title={titleConfig}
-              rightButton={rightButtonConfig}
-            />
-         <View style={styles.homeView}>
-             <Text>Home page test inside app </Text>
-             <Image source={require('../../img/auxy.png')} style={styles.auxylogo}/>
+         <StatusBar
+          backgroundColor="#004A7C"
+          barStyle="light-content"
+        />
+         <Spinner visible={this.state.visibleLoader} textContent={"Wait..."} textStyle={{color: '#FFF'}} />
+
+
+         <View
+           style={{
+             backgroundColor: '#fff',
+             justifyContent: 'center',
+             top:0,
+             left:0,
+             marginTop:22,
+             flex:1,
+             position:'absolute',
+             height:'8%',
+             width:'100%'
+           }}
+         >
+           <Image source={require('../../img/auxy.png')} style={styles.auxylogo}/>
          </View>
 
-          <Button
-             onPress={() => this.openDrawer()}
-             title="openDrawer"
-           />
-           <Button
-              onPress={() => this.closeDrawer()}
-              title="closeDrawer"
-            />
+           <View style={styles.homeView}>
+               <Text style={styles.homeView2}>Dear</Text>
+               <Text style={styles.homeView3}>{this.state.useremail?this.state.useremail:'Yet unknown'}!</Text>
+               <Text style={styles.homeView3}> Welcome to Auxy wallet</Text>
+
+               <View style={styles.auxybutton}>
+                 <TouchableHighlight
+                   style={styles.submit}
+                   onPress={() => {this.logout();}}
+                   underlayColor='#337ab7'>
+                   <View>
+                     <Text style={styles.submitText}>
+                       Logout
+                     </Text>
+                   </View>
+                 </TouchableHighlight>
+               </View>
+
+           </View>
        </View>
      );
 
@@ -144,7 +195,7 @@ export default class Home extends React.Component{
      );
 
       return (
-        <Drawers data={contents} screentitle='Home Page'/>
+        contents
       );
    }
 
@@ -152,7 +203,7 @@ export default class Home extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor:'#fff'
+    backgroundColor:'#004A7C'
   },
   containerBar:{
     flex:1,
@@ -165,7 +216,22 @@ const styles = StyleSheet.create({
   },
   homeView:{
     flex:3,
-    height:'100%'
+    height:'100%',
+      marginTop:'20%',
+      alignItems:'center'
+  },
+  homeView2:{
+    marginTop:'20%',
+    color:'#fff',
+    fontSize:18,
+    padding:25,
+    textAlign:'center'
+  },
+  homeView3:{
+    marginTop:'2%',
+    color:'#fff',
+    fontSize:18,
+    textAlign:'center'
   },
   statusbar:{
     height:24
@@ -175,6 +241,39 @@ const styles = StyleSheet.create({
     height:'8%',
     backgroundColor:'cyan'
 
-  }
+  },
+  auxylogo:{
+    width:130,
+    height:50,
+    marginLeft:'8%'
+  },
+  auxybutton:{
+    alignItems:'center',
+    bottom:0,
+    left:0,
+    right:0,
+    justifyContent:'center',
+    marginBottom:'8%',
+    marginTop:'10%',
+    width:'100%'
+  },
+  submit:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+    paddingTop:12,
+    paddingBottom:12,
+    backgroundColor:'#337ab7',
+    borderRadius:5,
+    borderWidth: 1,
+    width:180,
+    height:50,
+    borderColor:'rgba(0,0,0,0.2)',
+  },
+  submitText:{
+      color:'#fff',
+      textAlign:'center',
+      fontSize:16
+  },
 });
 //<Drawers data={contents} screentitle={'Home Page'}/>
