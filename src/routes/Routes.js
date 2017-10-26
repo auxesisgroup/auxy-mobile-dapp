@@ -9,22 +9,27 @@ import Newtoken from '../components/signup/Newtoken.js';
 import Password from '../components/signup/Password.js';
 import Recoverfund from '../components/recover/Funds.js';
 
+// import Start from '../components/home/Start.js';
+// import MyHomeScreen from '../components/home/Start.js';
+// import MyNotificationsScreen from '../components/home/Start.js';
+
 import Drawers from '../components/layout/Drawers.js';
 
 
 const Routes = () => (
    <Router>
       <Scene key = "root">
-         <Scene key = "welcome" component = {Welcome} title = "Welcome"  initial = {true}  hideNavBar={true} />
+         <Scene key = "welcome" component = {Welcome} title = "Welcome"  initial = {true} hideNavBar={true} />
 
          <Scene key = "home" component = {Home} title = "Home Page"   hideNavBar={true} />
 
-         <Scene key = "signup" component = {Signup} title = "Signup"  hideNavBar={true} />
+         <Scene key = "signup" component = {Signup} title = "Signup"    hideNavBar={true} />
          <Scene key = "newtoken" component = {Newtoken} title = "Newtoken" hideNavBar={true} />
          <Scene key = "password" component = {Password} title = "Password" hideNavBar={true} />
 
          <Scene key = "about" component = {About} title = "About" />
          <Scene key = "recoverfund" component = {Recoverfund}  title="recoverfund" hideNavBar={true} />
+
 
          <Scene key="drawers" component={Drawers}  hideNavBar={true}  />
 

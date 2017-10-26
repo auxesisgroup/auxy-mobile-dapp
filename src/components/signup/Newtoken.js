@@ -28,7 +28,8 @@ export default class Newtoken extends React.Component{
       token:'',
       fadeAnim:new Animated.Value(0),
       successResult:"Please click on the link provided in your mail to activate your account.",
-      visibleLoader:false
+      visibleLoader:false,
+      jwttoken:''
    }
    updateState = () => this.setState({ myState: 'The state is updated' })
 
@@ -55,6 +56,9 @@ export default class Newtoken extends React.Component{
       );
       AsyncStorage.getItem('AuxyUserEmail').then((value)=>{
         console.log(value);
+      });
+      AsyncStorage.getItem('Auxyjwt_token').then((val)=>{
+        this.setState({jwttoken:val});
       });
      BackHandler.addEventListener('hardwareBackPress', function() {
        // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
@@ -105,42 +109,71 @@ export default class Newtoken extends React.Component{
      });
    }
 
-   callMe(){
-     let email = this.state.token;
-     if(email == "" || email == null){
-       ToastAndroid.show("Provide your token",ToastAndroid.SHORT);
-     }else{
-       this.setState({
-         visibleLoader: true
-       });
-       console.log(this.state.token);
-       this.setState({token:''});
-       //console.log(this.state.successResult);
+   async callMe(){
+     try{
+       let token = this.state.token;
+       if(token == "" || token == null){
+         ToastAndroid.show("Provide your token",ToastAndroid.SHORT);
+       }else{
+         this.setState({
+           visibleLoader: true
+         });
+         console.log(this.state.token);
+         this.setState({token:''});
+         //console.log(this.state.successResult);
 
-       setTimeout(() => {
-          this.setState({
-            visibleLoader: false
-          });
-       }, 4000);
-       setTimeout(()=>{
-         let t = email;
-        AsyncStorage.setItem('AuxyUserToken',t);
-        this.props.navigation.dispatch(NavigationActions.reset({
-         index:0,
-         actions:[
-           NavigationActions.navigate({routeName:'password'})
-         ]
-        }));
-       },5000);
-      //  setTimeout(()=>{
-      //    this.popupDialog.dismiss();
-      //     this.props.navigation.dispatch(NavigationActions.reset({
-      //      index:0,
-      //      actions:[
-      //        NavigationActions.navigate({routeName:'home'})
-      //      ]
-      //     }));
-      //  },10000);
+
+         let url = 'http://wallet.auxledger.com/api/verify_token?token='+token+"&jwt_token="+this.state.jwttoken;
+        //  let api = await fetch(url,{
+        //    method:'GET',
+        //    headers:{
+        //     'Content-Type':'application/json',
+        //     'Accept' :'application/json'
+        //    }
+        //  });
+        //  let response = await api.json();
+         setTimeout(() => {
+            this.setState({
+              visibleLoader: false
+            });
+
+            // if(!response || response == null){
+            //     ToastAndroid.show("Token unverified!",ToastAndroid.SHORT);
+            // }else{
+            //   console.log(response);
+            // }
+            let t = token;
+             AsyncStorage.setItem('AuxyUserToken',t);
+             this.props.navigation.dispatch(NavigationActions.reset({
+              index:0,
+              actions:[
+                NavigationActions.navigate({routeName:'password'})
+              ]
+             }));
+         }, 4000);
+        //  setTimeout(()=>{
+        //    let t = token;
+        //   AsyncStorage.setItem('AuxyUserToken',t);
+        //   this.props.navigation.dispatch(NavigationActions.reset({
+        //    index:0,
+        //    actions:[
+        //      NavigationActions.navigate({routeName:'password'})
+        //    ]
+        //   }));
+        //  },5000);
+        //  setTimeout(()=>{
+        //    this.popupDialog.dismiss();
+        //     this.props.navigation.dispatch(NavigationActions.reset({
+        //      index:0,
+        //      actions:[
+        //        NavigationActions.navigate({routeName:'home'})
+        //      ]
+        //     }));
+        //  },10000);
+       }
+     }catch(err){
+       this.setState({visibleLoader:false});
+      ToastAndroid.show("Network is unavailable, try again!",ToastAndroid.SHORT);
      }
    }
 

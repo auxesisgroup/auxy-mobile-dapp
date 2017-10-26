@@ -26,8 +26,8 @@ export default class Home extends React.Component{
    }
 
    componentDidMount(){
-     AsyncStorage.setItem('setIfAuth','N');
-     
+     //AsyncStorage.setItem('setIfAuth','N');
+
      AsyncStorage.getItem('setIfAuth').then((v)=>{
        console.log(v);
        ifauth = v;

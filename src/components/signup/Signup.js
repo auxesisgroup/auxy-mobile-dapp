@@ -115,25 +115,47 @@ export default class Signup extends React.Component{
             this.setState({emailtext:''});
             //console.log(this.state.successResult);
 
-            setTimeout(() => {
-               this.setState({
-                 visibleLoader: false
-               });
-            }, 4000);
-            
-            let api = await fetch('https://freegeoip.net/json/', {
-              method: 'GET',
+
+            let api = await fetch('http://wallet.auxledger.com/api/signup_v2/', {
+              method: 'POST',
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
               },
-              // body: JSON.stringify({
-              //   firstParam: 'yourValue',
-              //   secondParam: 'yourOtherValue',
-              // })
+              body: JSON.stringify({
+                email_id: email
+              })
             });
             let response = await api.json();
-            console.log(response);
+
+            setTimeout(() => {
+               this.setState({
+                 visibleLoader: false
+               });
+
+
+               if(!response){
+                 ToastAndroid.show("Email is doesn't verified!",ToastAndroid.SHORT);
+               }else{
+                 let jwt_token = response.jwt_token;
+                 AsyncStorage.setItem("Auxyjwt_token",jwt_token);
+                 console.log(response);
+                 console.log(jwt_token);
+                //  AsyncStorage.getItem("Auxyjwt_token").then((val)=>{
+                //    console.log(val);
+                //  });
+                  AsyncStorage.setItem('AuxyUserEmail',email);
+                   this.props.navigation.dispatch(NavigationActions.reset({
+                    index:0,
+                    actions:[
+                      NavigationActions.navigate({routeName:'newtoken'})
+                    ]
+                   }));
+               }
+
+            }, 4000);
+
+
 
         //  setTimeout(()=>{
         //    AsyncStorage.setItem('AuxyUserEmail',email);
@@ -147,6 +169,8 @@ export default class Signup extends React.Component{
        }
      }catch(err){
          console.log("Failed due to "+err);
+         this.setState({visibleLoader:false});
+         ToastAndroid.show("Kindly request is unable to fetch because "+err+", Try again!",ToastAndroid.SHORT);
      }
    }
 
