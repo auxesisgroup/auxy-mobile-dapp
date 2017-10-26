@@ -2,6 +2,8 @@
   "expo": {
     "sdkVersion": "21.0.0",
     "name":"Auxy",
-    "icon":"./src/img/auxypic.png"
+    "slug": "Auxy",
+    "icon":"./src/img/auxypic.png",
+    "permissions":["CAMERA", "ACCESS_FINE_LOCATION"]
   }
 }
