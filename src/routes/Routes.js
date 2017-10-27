@@ -9,7 +9,7 @@ import Newtoken from '../components/signup/Newtoken.js';
 import Password from '../components/signup/Password.js';
 import Recoverfund from '../components/recover/Funds.js';
 
-// import Start from '../components/home/Start.js';
+// import Start from '../components/home/Start.js';asdf
 // import MyHomeScreen from '../components/home/Start.js';
 // import MyNotificationsScreen from '../components/home/Start.js';
 
